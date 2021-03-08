@@ -3,13 +3,13 @@ import App from "./App.vue";
 
 import "amfe-flexible/index.js";
 
-import "./style/index.scss";
+import "@style/index.scss";
 
-import api from "./api";
+import api from "@api";
 
-import store from "./store";
+import store from "@store";
 
-import router from "./router";
+import router from "@router";
 
 const app = createApp(App).use(store).use(router);
 

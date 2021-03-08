@@ -13,23 +13,14 @@ export default function (data, error, isValidating) {
   watchEffect(() => {
     if (data.value && isValidating.value) {
       state.value = STATES.VALIDATING;
-      return;
-    }
-    if (data.value && error.value) {
+    } else if (data.value && error.value) {
       state.value = STATES.STALE_IF_ERROR;
-      return;
-    }
-    if (data.value === undefined && !error.value) {
+    } else if (data.value === undefined && !error.value) {
       state.value = STATES.PENDING;
-      return;
-    }
-    if (data.value && !error.value) {
+    } else if (data.value && !error.value) {
       state.value = STATES.SUCCESS;
-      return;
-    }
-    if (data.value === undefined && error) {
+    } else if (data.value === undefined && error) {
       state.value = STATES.ERROR;
-      return;
     }
   });
 

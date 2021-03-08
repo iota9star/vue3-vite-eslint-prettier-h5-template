@@ -3,7 +3,6 @@ import vue from "@vitejs/plugin-vue";
 import legacy from "@vitejs/plugin-legacy";
 import viteCompression from "vite-plugin-compression";
 import { minifyHtml } from "vite-plugin-html";
-import analyze from "rollup-plugin-analyzer";
 import * as path from "path";
 
 // https://vitejs.dev/config/
@@ -16,13 +15,57 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/hitokoto-api/, ``),
       },
+      "/konachan-api": {
+        target: `https://konachan.net/post.json`,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/konachan-api/, ``),
+      },
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./src/style/var.scss";`,
+      },
     },
   },
   resolve: {
     alias: [
       {
-        find: `/@`,
-        replacement: path.join(__dirname, `src`),
+        find: `@`,
+        replacement: path.resolve(__dirname, `src`),
+      },
+      {
+        find: `@style`,
+        replacement: path.resolve(__dirname, `src/style`),
+      },
+      {
+        find: `@store`,
+        replacement: path.resolve(__dirname, `src/store`),
+      },
+      {
+        find: `@router`,
+        replacement: path.resolve(__dirname, `src/router`),
+      },
+      {
+        find: `@components`,
+        replacement: path.resolve(__dirname, `src/components`),
+      },
+      {
+        find: `@assets`,
+        replacement: path.resolve(__dirname, `src/assets`),
+      },
+      {
+        find: `@compositions`,
+        replacement: path.resolve(__dirname, `src/compositions`),
+      },
+      {
+        find: `@api`,
+        replacement: path.resolve(__dirname, `src/api`),
+      },
+      {
+        find: `@views`,
+        replacement: path.resolve(__dirname, `src/views`),
       },
     ],
   },
@@ -31,7 +74,6 @@ export default defineConfig({
     legacy({
       targets: [`> 0%`],
     }),
-    analyze(),
     viteCompression({
       // RegExp or (file: string) => boolean 指定哪些资源不压缩 /\.(js|mjs|json|css|html)$/i
       // filter: ``,
